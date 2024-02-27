@@ -1,10 +1,16 @@
-# Book-Recommendation-System
+# Book Recommendation System
 
-It's a simple book recommendation system based on collaborative filtering. Using KNN it recommends books.
-# We will soon be deploying it into vercel so please be patient.
-- Project Memebers:
-  - Mandeep ['Frontend Engineer']
-  - Nikesh ['Backend Engineer']
-  - Me ['ML engineer']
+This project implements a straightforward book recommendation system based on collaborative filtering. By utilizing K-Nearest Neighbors (KNN), it suggests books to users.
 
-Kaggle Data url : "https://www.kaggle.com/datasets/arashnic/book-recommendation-dataset"
+## Deployment Status
+We are currently in the process of deploying the system to Vercel. Please bear with us as we finalize the setup.
+
+## Project Members
+- **Mandeep**: Frontend Engineer
+- **Nikesh**: Backend Engineer
+- **Myself**: ML Engineer
+
+## Kaggle Dataset
+You can find the relevant dataset on Kaggle: Book Recommendation Dataset
+
+Feel free to explore the data and contribute to the project! 📚🔍
