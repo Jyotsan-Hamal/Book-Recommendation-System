@@ -2,7 +2,7 @@ from flask import Flask,render_template
 from book_recommender import recommend
 
 
-#Recommend function returns 5 books when the book-title is right otherwise it returns false
+# Recommend function returns 5 books when the book-title is right otherwise it returns false
 
 app = Flask(__name__)
 
