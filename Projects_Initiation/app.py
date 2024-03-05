@@ -59,7 +59,7 @@ def dashboard():
             if user_data:
                 # Load the dashboard data
                 
-                
+
                 return render_template('index.html', user_data=user_data, dashboard_data=dashboard_df)
             else:
                 # Handle case where user data is not found
@@ -154,6 +154,8 @@ def recommendation_input():
         return redirect(url_for('recommendation', book_name=book_name))
     
     return render_template('recommendation_input.html')
+
+
 @app.route('/get_suggestions/<input>', methods=['GET'])
 def get_suggestions(input):
     # Get book name suggestions based on user input
