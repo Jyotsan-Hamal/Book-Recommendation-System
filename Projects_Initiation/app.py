@@ -58,9 +58,9 @@ def dashboard():
 
             if user_data:
                 # Load the dashboard data
-                dashboard_data = pickle.load(open('./pickle_files/dashboard.pkl', 'rb'))
-
-                return render_template('index.html', user_data=user_data, dashboard_data=dashboard_data)
+                
+                
+                return render_template('index.html', user_data=user_data, dashboard_data=dashboard_df)
             else:
                 # Handle case where user data is not found
                 return "User data not found. Please try again later."
