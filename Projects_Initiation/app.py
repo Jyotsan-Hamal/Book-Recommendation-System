@@ -7,6 +7,7 @@ from flask import g
 app = Flask(__name__)
 app.secret_key = 'your_secret_key_here'  # Change this to a random secret key for security
 
+# Load pickled data
 dashboard_df = pickle.load(open('./pickle_files/dashboard.pkl', 'rb'))
 data_df = pickle.load(open('./pickle_files/data_df.pkl', 'rb'))
 pivot_table = pickle.load(open('./pickle_files/pivot_table.pkl', 'rb'))
@@ -22,15 +23,7 @@ c.execute('''CREATE TABLE IF NOT EXISTS users
              (username TEXT PRIMARY KEY, password TEXT, name TEXT, email TEXT, address TEXT)''')
 conn.commit()
 
-@app.route('/')
-def index():
-    if 'username' in session:
-        return redirect(url_for('dashboard'))  # Redirect to the dashboard if the user is logged in
-    else:
-        return redirect(url_for('login'))  # Redirect to the login page if the user is not logged in
-
-
-users = {}
+# Define helper functions
 
 def get_db():
     db = getattr(g, '_database', None)
@@ -44,108 +37,99 @@ def close_connection(exception):
     if db is not None:
         db.close()
 
+def fetch_user_data(username):
+    conn = get_db()
+    c = conn.cursor()
+    c.execute("SELECT * FROM users WHERE username=?", (username,))
+    user_data = c.fetchone()
+    c.close()
+    return user_data
+
+def load_dashboard_data():
+    with open('./pickle_files/dashboard.pkl', 'rb') as file:
+        dashboard_data = pickle.load(file)
+    return dashboard_data.to_dict(orient='records')
+
+# Routes
+
+@app.route('/')
+def index():
+    if 'username' in session:
+        return redirect(url_for('dashboard'))
+    else:
+        return redirect(url_for('login'))
+
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
     if 'username' in session:
         if request.method == 'GET':
-            # Fetch the user's data from the database
             username = session['username']
-            conn = get_db()
-            c = conn.cursor()
-            c.execute("SELECT * FROM users WHERE username=?", (username,))
-            user_data = c.fetchone()
-            c.close()
-
+            user_data = fetch_user_data(username)
             if user_data:
-                # Load the dashboard data
-                
-
-                return render_template('index.html', user_data=user_data, dashboard_data=dashboard_df)
+                dashboard_data = load_dashboard_data()
+                return render_template('index.html', user_data=user_data, dashboard_data=dashboard_data)
             else:
-                # Handle case where user data is not found
                 return "User data not found. Please try again later."
-
         elif request.method == 'POST':
             # Handle POST method if needed
-            # Add logic to process form submissions if applicable
             pass
     else:
-        # If the user is not logged in, redirect to the login page
         return redirect(url_for('login'))
-
-
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
-        # Retrieve form data
+        # Handle signup form submission
         username = request.form['username']
         password = request.form['password']
         name = request.form['name']
         email = request.form['email']
         address = request.form['address']
 
-        # Get the SQLite connection
         conn = get_db()
         c = conn.cursor()
 
-        # Check if username already exists
-        c.execute("SELECT * FROM users WHERE username=?", (username,))
-        if c.fetchone():
-            return "Username already exists! Please choose a different username."
-
-        # Add new user to the database
         c.execute("INSERT INTO users (username, password, name, email, address) VALUES (?, ?, ?, ?, ?)",
                   (username, password, name, email, address))
         conn.commit()
-
-        # Close the cursor
         c.close()
 
-        # Redirect to login page after successful signup
         return redirect(url_for('login'))
 
     return render_template('signup.html')
 
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
+        # Handle login form submission
         username = request.form['username']
         password = request.form['password']
 
-        # Get the SQLite connection
         conn = get_db()
         c = conn.cursor()
 
-        # Check if username exists in the database
         c.execute("SELECT * FROM users WHERE username=?", (username,))
         user = c.fetchone()
 
         if user:
-            # Retrieve the stored password for the username
-            stored_password = user[1]  # Assuming password is stored in the second column
+            stored_password = user[1]
 
-            # Check if the provided password matches the stored password
             if password == stored_password:
-                # Add username to session
                 session['username'] = username
                 return redirect(url_for('index'))
 
-        # Close the cursor
         c.close()
 
-        # If username doesn't exist or password is incorrect, show error message
         return "Invalid username or password. Please try again."
 
     return render_template('login.html')
 
-
-@app.route('/logout')
+@app.route('/logout', methods=['GET', 'POST'])
 def logout():
     # Remove the username from the session if it's there
     session.pop('username', None)
     return redirect(url_for('login'))
+
 
 @app.route('/recommendation/input', methods=['GET', 'POST'])
 def recommendation_input():
@@ -154,8 +138,6 @@ def recommendation_input():
         return redirect(url_for('recommendation', book_name=book_name))
     
     return render_template('recommendation_input.html')
-
-
 @app.route('/get_suggestions/<input>', methods=['GET'])
 def get_suggestions(input):
     # Get book name suggestions based on user input
