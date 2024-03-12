@@ -16,7 +16,7 @@ similarity = pickle.load(open('./pickle_files/similarity.pkl', 'rb'))
 
 # Dummy user database (replace this with a proper database)
 # Connect to SQLite database
-conn = sqlite3.connect('users.db')
+conn = sqlite3.connect('../users.db')
 c = conn.cursor()
 
 # Create users table if it doesn't exist
@@ -36,7 +36,7 @@ def login_required(f):
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:
-        db = g._database = sqlite3.connect('users.db')
+        db = g._database = sqlite3.connect('../users.db')
     return db
 
 @app.teardown_appcontext
