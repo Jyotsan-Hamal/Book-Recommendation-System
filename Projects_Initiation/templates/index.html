@@ -6,17 +6,34 @@
     <title>Dashboard</title>
 </head>
 <body>
-    <h1>Welcome, {{ user_data.username }}!</h1>
-    <h2>Exore</h2>
+    
+    <h2>Dashboard</h2>
+
+    <!-- Display user data and navigation options -->
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <p><strong>Welcome: {{ user_data[0] }}</p></strong>
+        </div>
+        <div>
+            <p><a href="{{ url_for('recommendation_input') }}">Get recommendation</a></p>
+            <form action="{{ url_for('logout') }}" method="post">
+                <button type="submit">Logout</button>
+            </form>
+        </div>
+    </div>
 
     <!-- Display books from dashboard data -->
     <h3>Books:</h3>
     <ul>
         {% for book in dashboard_data %}
-            <li>{{ book['Book-Title'] }}</li>
+            <li>
+                <a href="{{ url_for('book_details', book_title=book['Book-Title']) }}">
+                    <img src="{{ book['Image-URL-M'] }}" alt="Book Image" style="width: 100px; height: auto;">
+                    {{ book['Book-Title'] }}
+                </a>
+            </li>
         {% endfor %}
     </ul>
 
-    <p><a href="{{ url_for('recommendation_input') }}">Get recommendation</a></p>
 </body>
 </html>
