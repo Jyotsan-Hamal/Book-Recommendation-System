@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Login Page </title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='img/style.css') }}">
+
+</head>
+<body>
+  
+<div id="bg"></div>
+
+<form action="/login" method="post">
+    <div id="logo">
+        <img src="{{ url_for('static', filename='img/logo4.png') }}" alt="">
+    </div>
+    <div class="form-field">
+        <input type="text" id="username" name="username" placeholder="Username" required/>
+    </div>
+    
+    <div class="form-field">
+        <input type="password" id="password" name="password" placeholder="Password" required/>         
+    </div>
+    
+    <div class="form-field">
+        <button class="btn" type="submit">Log in</button>
+        <button class="btn"><a href="signup"> Sign up</a></button>
+    </div>
+</form>
+
+<footer>
+  <p>&copy; Exo.RD 2024</p>
+</footer>
+</body>
+</html>
+

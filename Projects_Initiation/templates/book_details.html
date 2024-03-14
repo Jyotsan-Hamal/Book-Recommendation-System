@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Details</title>
+</head>
+<body>
+    <h2>Book Details</h2>
+    <p><strong>Title:</strong> {{ book_data['Book-Title'].values[0] }}</p>
+    <p><strong>Author:</strong> {{ book_data['Book-Author'].values[0] }}</p>
+    <p><strong>User-ID:</strong> {{ book_data['User-ID'].values[0] }}</p>
+    <p><strong>ISBN:</strong> {{ book_data['ISBN'].values[0] }}</p>
+    <img src="{{ book_data['Image-URL-L'].values[0] }}" alt="Book Image" style="width: 200px;">
+    <!-- Adjust image width as needed -->
+</body>
+</html>
