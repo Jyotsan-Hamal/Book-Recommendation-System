@@ -26,20 +26,27 @@ conn.commit()
 
 def recommend(book_name):
     try:
-        index_position = np.where(pivot_table.index == book_name)[0][0]
+        index_position = np.where(pivot_table.index==book_name)[0][0]
+    
         similarity_scores_ = similarity[index_position]
+        
         similarity_scores_with_indexes = list(enumerate(similarity_scores_))
-        reverse_sorted_similarity_scores_with_indexes = sorted(similarity_scores_with_indexes, reverse=True, key=lambda x: x[1])
-        top5_books = reverse_sorted_similarity_scores_with_indexes[1:6]  # Exclude the book itself
-        book_name_suggestions = []
-        image_urls = []
+        reverse_sorted_similarity_scores_with_indexes = sorted(similarity_scores_with_indexes,reverse=True,key=lambda x:x[1])
+        top5_books = reverse_sorted_similarity_scores_with_indexes[0:6]
+    
+        book_name_suggestion = []
+        book_image_url = []
         for i in top5_books:
-            book_name_suggestions.append(pivot_table.index[i[0]])
-            image_urls.append(pivot_table.columns[i[0]])
-        return book_name_suggestions, image_urls
-    except Exception as e:
-        print("Error:", e)
-        return [], []
+            data = data_df[data_df['Book-Title']==pivot_table.index[i[0]]][['Book-Title','Book-Author','Publisher','Image-URL-M']]
+            if not data.empty:
+                book_image_url.append(data['Image-URL-M'].values[0])
+                
+                book_name_suggestion.append(pivot_table.index[i[0]])
+        
+        return book_name_suggestion, book_image_url
+    except:
+        return False, False
+
 
 
 
