@@ -57,6 +57,7 @@ img {
     <p><strong>User-ID:</strong> {{ book_data['User-ID'].values[0] }}</p>
     <p><strong>ISBN:</strong> {{ book_data['ISBN'].values[0] }}</p>
     <img src="{{ book_data['Image-URL-L'].values[0] }}" alt="Book Image" style="width: 200px;">
+
    
     <h3>You may also like these books:</h3>
     <ul>
@@ -65,5 +66,7 @@ img {
             
         {% endfor %}
     </ul>
+
+    <!-- Adjust image width as needed -->
 </body>
 </html>
