@@ -189,30 +189,31 @@ footer {
   
   <div id="bg"></div>
   <div class="logo">
+    <!-- <img src="img/logo4.png" alt=""> -->
     <img src="{{ url_for('static', filename='img/logo4.png') }}" alt="">
   </div>
     <form class="form" method="post">
         <p class="title">Register to EXO.RD</p>
           
             <label>
-                <input required="" placeholder="User Name" type="text" class="input">
+                <input name="username" placeholder="User Name" type="text" class="input" required>
                 <span></span>
             </label>
             <label>
-              <input required="" placeholder="Full Name" type="text" class="input">
+              <input name="name" placeholder="Full Name" type="text" class="input" required>
               <span></span>
           </label>
           <label>
-            <input required="" placeholder="Address" type="text" class="input">
+            <input name="address" placeholder="Address" type="text" class="input" required>
             <span></span>
         </label>
           <label>
-            <input required="" placeholder="E-mail" type="email" class="input">
+            <input name="email" placeholder="E-mail" type="email" class="input" required>
             <span></span>
         </label> 
                  
         <label>
-          <input required="" placeholder="Password" type="password" class="input">
+          <input name="password" placeholder="Password" type="password" class="input" required>
           <span></span>
       </label>   
         <button class="submit" value="Sign Up">Submit</button>
