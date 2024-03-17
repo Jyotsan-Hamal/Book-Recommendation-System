@@ -16,7 +16,7 @@ similarity = pickle.load(open('./pickle_files/similarity.pkl', 'rb'))
 
 # Dummy user database (replace this with a proper database)
 # Connect to SQLite database
-conn = sqlite3.connect('../users.db')
+conn = sqlite3.connect('users.db')
 c = conn.cursor()
 
 # Create users table if it doesn't exist
@@ -36,7 +36,7 @@ def login_required(f):
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:
-        db = g._database = sqlite3.connect('../users.db')
+        db = g._database = sqlite3.connect('users.db')
     return db
 
 @app.teardown_appcontext
@@ -77,6 +77,7 @@ def dashboard():
             if user_data:
                 dashboard_data = load_dashboard_data()
                 return render_template('index.html', user_data=user_data, dashboard_data=dashboard_data)
+            
             else:
                 return "User data not found. Please try again later."
         elif request.method == 'POST':
@@ -91,10 +92,14 @@ def book_details(book_title):
     # Fetch data for the selected book from data_df.pkl
     book_data = data_df[data_df['Book-Title'] == book_title]
     if not book_data.empty:
-        # Render template with book details
-        return render_template('book_details.html', book_data=book_data)
+        recommendations = recommend(book_title)  # Get recommendations for the selected book
+        print("Recommendations:", recommendations)  # Print recommendations for debugging
+        return render_template('book_details.html', book_data=book_data, recommendations=recommendations)
     else:
         return "Book details not found."
+
+
+
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -181,29 +186,22 @@ def recommendation():
         else:
             return "No book name provided."
 
-@login_required
 def recommend(book_name):
     try:
-        index_position = np.where(pivot_table.index==book_name)[0][0]
-    
+        index_position = np.where(pivot_table.index == book_name)[0][0]
         similarity_scores_ = similarity[index_position]
-        
         similarity_scores_with_indexes = list(enumerate(similarity_scores_))
-        reverse_sorted_similarity_scores_with_indexes = sorted(similarity_scores_with_indexes,reverse=True,key=lambda x:x[1])
-        top5_books = reverse_sorted_similarity_scores_with_indexes[0:6]
-    
-        book_name_suggestion = []
-        book_image_url = []
+        reverse_sorted_similarity_scores_with_indexes = sorted(similarity_scores_with_indexes, reverse=True, key=lambda x: x[1])
+        top5_books = reverse_sorted_similarity_scores_with_indexes[1:6]  # Exclude the book itself
+        book_name_suggestions = []
+        image_urls = []
         for i in top5_books:
-            data = data_df[data_df['Book-Title']==pivot_table.index[i[0]]][['Book-Title','Book-Author','Publisher','Image-URL-M']]
-            if not data.empty:
-                book_image_url.append(data['Image-URL-M'].values[0])
-                
-                book_name_suggestion.append(pivot_table.index[i[0]])
-        
-        return book_name_suggestion, book_image_url
-    except:
-        return False, False
+            book_name_suggestions.append(pivot_table.index[i[0]])
+            image_urls.append(pivot_table.columns[i[0]])
+        return book_name_suggestions, image_urls
+    except Exception as e:
+        print("Error:", e)
+        return [], []
 
 if __name__ == '__main__':
     app.run(debug=True)

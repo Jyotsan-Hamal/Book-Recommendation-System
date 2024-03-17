@@ -4,6 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Recommendations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: wheat;
+            padding: 20px;
+        }
+        h2 {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 30px;
+            color: #333;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+        }
+        li {
+    display: inline-block;
+    margin: 10px;
+    /* margin: 20px auto; */
+    text-align: center;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    width: 150px; 
+    height: 220px; 
+    overflow: hidden; 
+    cursor: pointer;
+
+    transition: transform 0.3s; 
+}
+
+li:hover {
+    transform: translateY(-5px); 
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2); 
+}
+
+img {
+    width: 100px; 
+    height: 150px; 
+    display: block;
+    margin: 0 auto 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    object-fit: cover; 
+}
+h3 {
+    margin: 0;
+    font-size: 1.2em;
+    color: #333;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; 
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+
+    </style>
 </head>
 <body>
     <h2>Book Recommendations</h2>
@@ -19,6 +81,5 @@
     {% else %}
         <p>{{ message }}</p>
     {% endif %}
-    
 </body>
 </html>

@@ -3,28 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
+    <title>Document</title>
+    <style>
+      *{
+        margin: 0;
+        padding: 0;
+      }
+           body {
+          display: flex;
+          align-items: left;
+          position: relative;
+        }
+        
+        #bg {
+          background-image: url('../static/img//Read.jpg');
+          position: fixed;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          background-size: cover;
+          filter: blur(1px);
+        }
+
+        .logo img{
+  position: absolute;
+  text-align: center;
+  top: 13%;
+  bottom: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+}
+
+
+        .form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 400px;
+  height: 500px;
+  padding: 20px;
+  align-items: left; 
+  border-radius: 20px;
+  position: relative;
+  color: #fff;
+  margin-left: 38%;
+  margin-top: 180px;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 500;
+  letter-spacing: -1px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-left: 30px;
+  color:initial;
+  margin-bottom: 7%;
+}
+
+.title::before {
+  width: 18px;
+  height: 18px;
+}
+
+.title::after {
+  width: 18px;
+  height: 18px;
+  animation: pulse 1s linear infinite;
+}
+
+.title::before,
+.title::after {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  left: 0px;
+  background-color: wheat;
+}
+
+.message, 
+.signin {
+  font-size: 14.5px;
+  color:initial;
+}
+
+.signin {
+  text-align: center;
+}
+
+.signin a:hover {
+  text-decoration: underline royalblue;
+}
+
+.signin a {
+  color: initial;
+}
+
+.flex {
+  display: flex;
+  width: 100%;
+  gap: 6px;
+}
+
+.form label {
+  position: relative;
+}
+
+.form label .input {
+  /* margin-top: 5%; */
+  background-color: whitesmoke;
+  color: black;
+  width: 95%;
+  padding: 15px;
+  outline: 0;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+  border: 1px solid rgba(105, 105, 105, 0.397);
+  border-radius: 20px;
+} 
+
+
+
+.form label .input:placeholder-shown  {
+
+  font-size: 17px;
+  font-family: sans-serif;
+}
+
+
+.input {
+  font-size: medium;
+}
+
+.submit {
+  border: none;
+  margin: 0 auto;
+  outline: none;
+  padding: 10px;
+  margin-top: 20px;
+  border-radius: 20px;
+  color:#776B5D;
+  font-size: 16px;
+  width: 40%;
+  text-align: center;
+  align-items: center;
+  transform: .1s ease;
+  cursor: pointer;
+  transition: 0.1s ease-in-out;
+  background-color: rgb(248, 216, 156);
+}
+
+.submit:hover {
+  background-color: rgb(250, 236, 212);
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(0.9);
+    opacity: 1;
+  }
+
+  to {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  color: black;
+  padding: 10px;
+}
+
+    </style>
 </head>
 <body>
-    <h2>Sign Up</h2>
-    <form method="post" action="{{ url_for('signup') }}">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required><br><br>
-        
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required><br><br>
-        
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required><br><br>
-        
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br><br>
-        
-        <label for="address">Address:</label>
-        <input type="text" id="address" name="address" required><br><br>
-        
-        <input type="submit" value="Sign Up">
+ 
+  
+  
+  <div id="bg"></div>
+  <div class="logo">
+    <!-- <img src="img/logo4.png" alt=""> -->
+    <img src="{{ url_for('static', filename='img/logo4.png') }}" alt="">
+  </div>
+    <form class="form" method="post">
+        <p class="title">Register to EXO.RD</p>
+          
+            <label>
+                <input name="username" placeholder="User Name" type="text" class="input" required>
+                <span></span>
+            </label>
+            <label>
+              <input name="name" placeholder="Full Name" type="text" class="input" required>
+              <span></span>
+          </label>
+          <label>
+            <input name="address" placeholder="Address" type="text" class="input" required>
+            <span></span>
+        </label>
+          <label>
+            <input name="email" placeholder="E-mail" type="email" class="input" required>
+            <span></span>
+        </label> 
+                 
+        <label>
+          <input name="password" placeholder="Password" type="password" class="input" required>
+          <span></span>
+      </label>   
+        <button class="submit" value="Sign Up">Submit</button>
+        <p class="signin">Already have an acount ? <a href="login">Signin</a> </p>
+      
     </form>
-    <p>login <a href="login">here</a></p>
+    <footer>
+      <p>&copy; Exo.RD 2024</p>
+    </footer>
 </body>
 </html>
