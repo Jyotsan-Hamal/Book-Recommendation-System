@@ -4,6 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Details</title>
+    <style>
+        body {
+  display: flex;
+  flex-direction: column;
+ 
+  height: 100vh;
+  background-color: wheat; /* Light gray background color */
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  max-width: 600px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: wheat; /* White background color */
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+p {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+strong {
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 10px;
+
+}
+
+img {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+    </style>
 </head>
 <body>
     <h2>Book Details</h2>
@@ -12,6 +57,7 @@
     <p><strong>User-ID:</strong> {{ book_data['User-ID'].values[0] }}</p>
     <p><strong>ISBN:</strong> {{ book_data['ISBN'].values[0] }}</p>
     <img src="{{ book_data['Image-URL-L'].values[0] }}" alt="Book Image" style="width: 200px;">
-    <!-- Adjust image width as needed -->
+   
+    
 </body>
 </html>
