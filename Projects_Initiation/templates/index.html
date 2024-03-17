@@ -223,7 +223,7 @@
         {% for book in dashboard_data %}
         <li>
             <a href="{{ url_for('book_details', book_title=book['Book-Title']) }}">
-                <img src="{{ book['Image-URL-M'] }}" alt="Book Image" style="width: 100px; height: auto;">
+                <img src="{{ book['Image-URL-L'] }}" alt="Book Image" style="width: 100px; height: auto;">
                 {{ book['Book-Title'] }}
             </a>
         </li>
