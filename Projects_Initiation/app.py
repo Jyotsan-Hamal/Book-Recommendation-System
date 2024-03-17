@@ -24,6 +24,25 @@ c.execute('''CREATE TABLE IF NOT EXISTS users
              (username TEXT PRIMARY KEY, password TEXT, name TEXT, email TEXT, address TEXT)''')
 conn.commit()
 
+def recommend(book_name):
+    try:
+        index_position = np.where(pivot_table.index == book_name)[0][0]
+        similarity_scores_ = similarity[index_position]
+        similarity_scores_with_indexes = list(enumerate(similarity_scores_))
+        reverse_sorted_similarity_scores_with_indexes = sorted(similarity_scores_with_indexes, reverse=True, key=lambda x: x[1])
+        top5_books = reverse_sorted_similarity_scores_with_indexes[1:6]  # Exclude the book itself
+        book_name_suggestions = []
+        image_urls = []
+        for i in top5_books:
+            book_name_suggestions.append(pivot_table.index[i[0]])
+            image_urls.append(pivot_table.columns[i[0]])
+        return book_name_suggestions, image_urls
+    except Exception as e:
+        print("Error:", e)
+        return [], []
+
+
+
 # Define helper functions
 def login_required(f):
     @wraps(f)
@@ -163,11 +182,15 @@ def recommendation_input():
         return redirect(url_for('recommendation', book_name=book_name))
     
     return render_template('recommendation_input.html')
+
+
 @app.route('/get_suggestions/<input>', methods=['GET'])
 def get_suggestions(input):
     # Get book name suggestions based on user input
     suggestions = [book_name for book_name in data_df['Book-Title'] if input.lower() in book_name.lower()]
     return '<ul>' + ''.join([f'<li>{suggestion}</li>' for suggestion in suggestions]) + '</ul>'
+
+
 
 @login_required
 @app.route('/recommendation', methods=['GET', 'POST'])
@@ -186,22 +209,8 @@ def recommendation():
         else:
             return "No book name provided."
 
-def recommend(book_name):
-    try:
-        index_position = np.where(pivot_table.index == book_name)[0][0]
-        similarity_scores_ = similarity[index_position]
-        similarity_scores_with_indexes = list(enumerate(similarity_scores_))
-        reverse_sorted_similarity_scores_with_indexes = sorted(similarity_scores_with_indexes, reverse=True, key=lambda x: x[1])
-        top5_books = reverse_sorted_similarity_scores_with_indexes[1:6]  # Exclude the book itself
-        book_name_suggestions = []
-        image_urls = []
-        for i in top5_books:
-            book_name_suggestions.append(pivot_table.index[i[0]])
-            image_urls.append(pivot_table.columns[i[0]])
-        return book_name_suggestions, image_urls
-    except Exception as e:
-        print("Error:", e)
-        return [], []
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

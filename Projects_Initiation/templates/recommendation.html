@@ -71,10 +71,10 @@ h3 {
     <h2>Book Recommendations</h2>
     {% if zipped_data %}
         <ul>
-            {% for book, image_url in zipped_data %}
+            {% for books, image_urls in zipped_data %}
                 <li>
-                    <img src="{{ image_url }}" alt="Book Image">
-                    <h3>{{ book }}</h3>
+                    <img src="{{ image_urls }}" alt="Book Image">
+                    <h3>{{ books }}</h3>
                 </li>
             {% endfor %}
         </ul>
