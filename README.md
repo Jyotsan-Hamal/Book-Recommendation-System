@@ -1,6 +1,6 @@
 # Book Recommendation System
 
-This project implements a straightforward book recommendation system based on collaborative filtering. By utilizing K-Nearest Neighbors (KNN), it suggests books to users.
+This project implements a straightforward book recommendation system based on collaborative filtering. By utilizing cosine similarity between book vectors, it suggests books to users.
 
 ## Deployment Status
 We are currently in the process of deploying the system to Vercel. Please bear with us as we finalize the setup.
@@ -16,6 +16,11 @@ We are currently in the process of deploying the system to Vercel. Please bear w
 - **Mandeep**: Frontend Engineer
 - **Nikesh**: Backend Engineer
 - **Myself**: ML Engineer
+
+## Project Snaps:
+![Log-in](./img/log.png)
+![Sign-in](./img/sign.png)
+![](./img/rec.png)
 
 ## Kaggle Dataset
 You can find the relevant dataset on Kaggle: Book Recommendation Dataset
