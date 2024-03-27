@@ -194,26 +194,35 @@ footer {
   </div>
     <form class="form" method="post">
         <p class="title">Register to EXO.RD</p>
-          
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %} 
             <label>
-                <input name="username" placeholder="User Name" type="text" class="input" required>
+                <input name="username" placeholder="User Name" value="{{ username }}" type="text" class="input" required>
                 <span></span>
             </label>
             <label>
-              <input name="name" placeholder="Full Name" type="text" class="input" required>
+              <input name="name" placeholder="Full Name" value="{{name}}" type="text" class="input" required>
               <span></span>
           </label>
           <label>
-            <input name="address" placeholder="Address" type="text" class="input" required>
+            <input name="address" placeholder="Address" value="{{address}}" type="text" class="input" required>
             <span></span>
         </label>
           <label>
-            <input name="email" placeholder="E-mail" type="email" class="input" required>
+            <input name="email" placeholder="E-mail" type="email" value="{{email}}" class="input" required>
             <span></span>
         </label> 
-                 
+        
+        
         <label>
-          <input name="password" placeholder="Password" type="password" class="input" required>
+          <input name="password" placeholder="Password" type="password"  class="input" required>
           <span></span>
       </label>   
         <button class="submit" value="Sign Up">Submit</button>
