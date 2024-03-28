@@ -32,11 +32,12 @@
     width: 100px;
     height: 100px;
     border-radius: 50%;
-    background-color: #f00; 
+    background-image: url('../static/img//a.jpg'); 
     position: absolute;
     top: 5px; 
-    left: 87%; 
+    left: 88%; 
     transform: translateX(-50%);
+    background-size: cover;
         }
         .ioo {
             order: 2; 
@@ -198,7 +199,7 @@
 <body>
     <div class="container">
         <div class="circle">
-            <img src="{{ url_for('static', filename='img/a.jpg') }}" alt="">
+            <!-- <img src="{{ url_for('static', filename='img/a.jpg') }}" alt=""> -->
         </div>
         <div class="oi">
             <h2>Exo.RD</h2>
