@@ -1,9 +1,10 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 import pickle
 import numpy as np
 import sqlite3
 from flask import g
 from functools import wraps
+import re
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key_here'  # Change this to a random secret key for security
@@ -23,6 +24,36 @@ c = conn.cursor()
 c.execute('''CREATE TABLE IF NOT EXISTS users
              (username TEXT PRIMARY KEY, password TEXT, name TEXT, email TEXT, address TEXT)''')
 conn.commit()
+
+def check_password_strength(password):
+    # Define criteria for password strength
+    length_regex = r'.{8,}'  # At least 8 characters
+    uppercase_regex = r'[A-Z]'  # At least one uppercase letter
+    lowercase_regex = r'[a-z]'  # At least one lowercase letter
+    digit_regex = r'\d'  # At least one digit
+    special_char_regex = r'[^A-Za-z0-9]'  # At least one special character
+
+    # Check each criterion
+    has_length = re.search(length_regex, password)
+    has_uppercase = re.search(uppercase_regex, password)
+    has_lowercase = re.search(lowercase_regex, password)
+    has_digit = re.search(digit_regex, password)
+    has_special_char = re.search(special_char_regex, password)
+
+    # Determine strength based on criteria met
+    strength = ""
+    if has_length and has_uppercase and has_lowercase and has_digit and has_special_char:
+        strength = "Very Strong"
+    elif has_length and has_uppercase and has_lowercase and has_digit:
+        strength = "Strong"
+    elif has_length and has_lowercase and has_digit:
+        strength = "Moderate"
+    elif has_length and has_lowercase:
+        strength = "Weak"
+    else:
+        strength = "Very Weak"
+
+    return strength
 
 def recommend(book_name):
     try:
@@ -136,16 +167,45 @@ def signup():
         name = request.form['name']
         email = request.form['email']
         address = request.form['address']
-
+        
+        # Check if the username already exists
         conn = get_db()
         c = conn.cursor()
-
-        c.execute("INSERT INTO users (username, password, name, email, address) VALUES (?, ?, ?, ?, ?)",
-                  (username, password, name, email, address))
-        conn.commit()
+        c.execute("SELECT * FROM users WHERE username = ?", (username,))
+        existing_user = c.fetchone()
         c.close()
 
-        return redirect(url_for('login'))
+        if existing_user:
+            flash('Username already exists. Please choose a different username.', 'error')
+            return render_template('signup.html', username=username, name=name, email=email, address=address)
+
+
+
+        #cheking the password strength.
+        password_strength = check_password_strength(password=password)
+        strong_criteria = ['Moderate','Very Strong','Strong']
+        if password_strength in strong_criteria:
+            # Proceed with signup if password strength is satisfactory
+            conn = get_db()
+            c = conn.cursor()
+
+            c.execute("INSERT INTO users (username, password, name, email, address) VALUES (?, ?, ?, ?, ?)",
+                    (username, password, name, email, address))
+            conn.commit()
+            c.close()
+            flash('Successfully signed up!', 'success')
+            return redirect(url_for('login'))
+        else:
+            flash(f'Password strength is {password_strength}', 'error')
+            return render_template(
+                'signup.html', 
+                username=username, 
+                name=name, 
+                email=email, 
+                address=address
+                )
+    
+        
 
     return render_template('signup.html')
 
@@ -170,8 +230,9 @@ def login():
                 return redirect(url_for('index'))
 
         c.close()
-
-        return "Invalid username or password. Please try again."
+        flash('Wrong credentials. Please try again.', 'error')
+        return render_template('login.html')
+        
 
     return render_template('login.html')
 

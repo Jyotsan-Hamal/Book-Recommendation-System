@@ -14,6 +14,16 @@
     <div id="logo">
         <img src="{{ url_for('static', filename='img/logo4.png') }}" alt="">
     </div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <br>
     <div class="form-field">
         <input type="text" id="username" name="username" placeholder="Username" required/>
     </div>
@@ -24,7 +34,7 @@
     
     <div class="form-field">
         <button class="btn" type="submit">Log in</button>
-        <a href="signup"> <button class="btn">Sign up</button></a>
+         <button class="btn"><a href="signup"> Sign up </a></button>
     </div>
 </form>
 
