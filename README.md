@@ -20,9 +20,9 @@ We are currently in the process of deploying the system to Vercel. Please bear w
 ## Project Snaps:
 ![Log-in](./img/log.png)
 ![Sign-in](./img/sign.png)
-![](./img/rec.png)
-![](./img/dash.png)
-![](./img/book.png)
+![sd](./img/rec.png)
+![d](./img/dash.png)
+![fs](./img/book.png)
 
 ## Kaggle Dataset
 You can find the relevant dataset on Kaggle: Book Recommendation Dataset
