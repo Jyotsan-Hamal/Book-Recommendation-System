@@ -39,6 +39,43 @@ strong {
 
 }
 
+ul {
+            display: flex;
+            flex-wrap: wrap;
+            list-style-type: none;
+            padding: 0;
+        }
+        ul li {
+            width: 16.666%;
+            padding: 30px;
+            box-sizing: border-box;
+            text-align: center;
+            position: relative;
+        }
+        ul li img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+        ul li a {
+            text-decoration: none;
+            color: black;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        ul li:hover {
+            transform: translateY(-5px);
+            transition-duration: 0.3s;
+        }
+        ul li p {
+            margin: 0;
+            padding: 0;
+            color: #333;
+            font-size: 16px;
+        }
+
 img {
   display: block;
   margin: 0 auto;
@@ -57,16 +94,19 @@ img {
     <p><strong>User-ID:</strong> {{ book_data['User-ID'].values[0] }}</p>
     <p><strong>ISBN:</strong> {{ book_data['ISBN'].values[0] }}</p>
     <img src="{{ book_data['Image-URL-L'].values[0] }}" alt="Book Image" style="width: 200px;">
-
+    <a href="/"><button>Back to Home</button></a>
    
     <h3>You may also like these books:</h3>
     <ul>
-        {% for recommendation in recommendations %}
-            <li>{{ recommendation }}</li>
-            
-        {% endfor %}
+      {% for rec in range(length_po) %}
+        <li>
+          <a href="{{ url_for('book_details', book_title=recommendations['Book-name'][rec]) }}">
+            <img src="{{ recommendations['Book-URL'][rec] }}" alt="Book Image" style="width: 100px; height: auto;">
+            {{ recommendations['Book-name'][rec] }}
+          </a>
+        </li>
+      {% endfor %}
     </ul>
-
     <!-- Adjust image width as needed -->
 </body>
 </html>

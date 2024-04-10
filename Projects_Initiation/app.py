@@ -133,7 +133,10 @@ def dashboard():
             user_data = fetch_user_data(username)
             if user_data:
                 dashboard_data = load_dashboard_data()
-                return render_template('index.html', user_data=user_data, dashboard_data=dashboard_data)
+                return render_template('index.html', 
+                                       user_data=user_data, 
+                                       dashboard_data=dashboard_data
+                                       )
             
             else:
                 return "User data not found. Please try again later."
@@ -149,9 +152,18 @@ def book_details(book_title):
     # Fetch data for the selected book from data_df.pkl
     book_data = data_df[data_df['Book-Title'] == book_title]
     if not book_data.empty:
-        recommendations = recommend(book_title)  # Get recommendations for the selected book
-        print("Recommendations:", recommendations)  # Print recommendations for debugging
-        return render_template('book_details.html', book_data=book_data, recommendations=recommendations)
+        book_name,book_url = recommend(book_title)
+        recommmend_dictionary = {
+            'Book-URL':book_url,
+            'Book-name' : book_name
+        } 
+         # Get recommendations for the selected book
+        # Print recommendations for debugging
+        return render_template('book_details.html',
+                                book_data=book_data, 
+                                recommendations=recommmend_dictionary,
+                                length_po = len(book_url)
+                                )
     else:
         return "Book details not found."
 
