@@ -2,10 +2,13 @@
 # Book Recommendation System
 
 This project implements a straightforward book recommendation system based on collaborative filtering. By utilizing cosine similarity between book vectors, it suggests books to users.
-# 
-![gfh](https://media.tenor.com/ZRmKGlWN4XEAAAAM/sakuragi-hanamichi.gif)
+
+<img align="right" alt="Coding" width="400" src="https://media.tenor.com/ZRmKGlWN4XEAAAAM/sakuragi-hanamichi.gif">
+
 ## Deployment Status
 We are currently in the process of deploying the system to Vercel. Please bear with us as we finalize the setup.
+
+
 
 ## Folder structure:
 - you can run the project by:
